@@ -5,6 +5,7 @@
 #include "yuki/containers/dynamic_array.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 
 YUKI_API void *

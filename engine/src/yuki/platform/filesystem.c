@@ -160,9 +160,10 @@ filesystem_write_data_to_file
 	return true;
 }
 
-const_str
+YUKI_API const_str
 filesystem_get_filename_from_filepath
 (const_str filepath)
 {
-	return YUKI_CAST(const_str, (strrchr(filepath, '\\') ? strrchr(filepath, '\\') + 1 : strrchr(filepath, '/') ? strrchr(filepath, '/') + 1 : filepath));
+	return (strrchr(filepath, '\\') ? strrchr(filepath, '\\') + 1 : strrchr(filepath, '/') ? strrchr(filepath, '/') + 1 : filepath);
 }
+

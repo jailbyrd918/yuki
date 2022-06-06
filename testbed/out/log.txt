@@ -1,0 +1,30 @@
+[2022-06-06 12:03:36] (input.c : 52) INFO    >> initialized input subsytem.
+[2022-06-06 12:03:36] (game.c : 11) DEBUG   >> game_init() called from testbed
+[2022-06-06 12:03:36] (application.c : 223) INFO    >> 
+============= Memory Usage =============
+UNKNOWN    	-	0.00 B
+STATIC_ARR 	-	0.00 B
+DYNAMIC_ARR	-	328.00 B
+ALLOCATORS 	-	0.00 B
+GAME       	-	4.00 B
+APPLICATION	-	0.00 B
+STRING     	-	0.00 B
+TEXTURE    	-	0.00 B
+MAT_INST   	-	0.00 B
+RENDERER   	-	0.00 B
+
+[2022-06-06 12:03:39] (application.c : 63) INFO    >> EVENT_CODE_APP_QUIT invoked - shutting down...
+[2022-06-06 12:03:39] (application.c : 279) INFO    >> 
+============= Memory Usage =============
+UNKNOWN    	-	0.00 B
+STATIC_ARR 	-	0.00 B
+DYNAMIC_ARR	-	0.00 B
+ALLOCATORS 	-	0.00 B
+GAME       	-	0.00 B
+APPLICATION	-	0.00 B
+STRING     	-	0.00 B
+TEXTURE    	-	0.00 B
+MAT_INST   	-	0.00 B
+RENDERER   	-	0.00 B
+
+[2022-06-06 12:03:39] (memory_module.c : 77) INFO    >> memory blocks of all tags are fully deallocated.

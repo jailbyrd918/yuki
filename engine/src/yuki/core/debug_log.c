@@ -1,4 +1,4 @@
-#include "yuki/platform/filesystem.h"
+#include "yuki/core/str.h"
 #include "yuki/core/memory/memory_module.h"
 
 #include "yuki/core/debug_log.h"
@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
-#include <string.h>
 
 
 typedef struct s_yuki_log_module_state {
@@ -27,7 +26,7 @@ _ykstatic_append_to_output_log_file
 	if (!state_ref || !state_ref->handle.is_valid || !state_ref->handle.ref)
 		return false;
 
-	u32 len = strlen(message);
+	u32 len = str_get_string_length(message);
 	if (!filesystem_write_data_to_file(&state_ref->handle, message, len))
 		YUKI_LOG_ERROR("error writing to output log file!");
 
@@ -47,7 +46,7 @@ log_module_startup
 	state_ref = YUKI_CAST(yuki_log_module_state *, state);
 	memory_module_set_block_zero(state_ref, sizeof(yuki_log_module_state));
 
-	if (log_output_filepath && strlen(log_output_filepath) > 0) {
+	if (log_output_filepath && str_get_string_length(log_output_filepath) > 0) {
 		if (!filesystem_open_file(log_output_filepath, YUKI_FILE_IO_MODE_WRITE, YUKI_FILE_MODE_TEXT, &state_ref->handle)) {
 			YUKI_LOG_ERROR("error opening output log file!");
 			return false;
@@ -99,7 +98,7 @@ log_output_print
 	{
 		YUKI_VA_LIST ls;
 		va_start(ls, message);
-		vsnprintf(fmtmsg, YUKI_LOG_ENTRY_BUFFER_MAX, message, ls);
+		str_format_string_variadic(fmtmsg, message, ls);
 		va_end(ls);
 	}
 
@@ -111,7 +110,7 @@ log_output_print
 	}
 
 	// format final output message
-	sprintf(outmsg, "[%s] (%s : %d) %s>> %s\n", timemsg, filename, line, lvlmsg, fmtmsg);
+	str_format_string(outmsg, "[%s] (%s : %d) %s>> %s\n", timemsg, filename, line, lvlmsg, fmtmsg);
 
 	// print final output message to console with ANSI-escape coloring
 	{

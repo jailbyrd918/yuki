@@ -9,7 +9,7 @@
 
 typedef struct s_yuki_memory_storage {
 
-	u32	total_allocated,
+	u64	total_allocated,
 		tagged_alloc_list[YUKI_MEMORY_TAGS_NUM];
 
 }
@@ -45,7 +45,7 @@ static yuki_memory_subsystem_state *state_ref;
 
 YUKI_API bool
 memory_module_startup
-(u32 *required_memory_size, void *state)
+(u64 *required_memory_size, void *state)
 {
 	*required_memory_size = sizeof(yuki_memory_subsystem_state);
 
@@ -83,7 +83,7 @@ memory_module_shutdown
 
 YUKI_API void *
 memory_module_allocate_block
-(const u32 block_size, const yuki_memory_tag tag)
+(const u64 block_size, const yuki_memory_tag tag)
 {
 	if (tag == YUKI_MEMORY_TAG_UNKNOWN)
 		YUKI_LOG_WARNING("allocated a memory block under tag 'YUKI_MEMORY_TAG_UNKNOWN' - reclassify allocation.");
@@ -96,13 +96,13 @@ memory_module_allocate_block
 	}
 
 	// allocate and return new block
-	void *newblock = malloc(block_size);
+	void *newblock = malloc(YUKI_CAST(u32, block_size));
 	return newblock;
 }
 
 YUKI_API void
 memory_module_deallocate_block
-(void *memory_block, const u32 block_size, const yuki_memory_tag tag)
+(void *memory_block, const u64 block_size, const yuki_memory_tag tag)
 {
 	if (tag == YUKI_MEMORY_TAG_UNKNOWN)
 		YUKI_LOG_WARNING("reallocated a memory block under tag 'YUKI_MEMORY_TAG_UNKNOWN' - reclassify allocation.");
@@ -120,23 +120,23 @@ memory_module_deallocate_block
 
 YUKI_API void *
 memory_module_set_block_zero
-(void *memory_block, const u32 block_size)
+(void *memory_block, const u64 block_size)
 {
-	return memset(memory_block, 0, block_size);
+	return memset(memory_block, 0, YUKI_CAST(u32, block_size));
 }
 
 YUKI_API void *
 memory_module_set_block_value
-(void *memory_block, const u32 block_size, const s32 value)
+(void *memory_block, const u64 block_size, const s32 value)
 {
-	return memset(memory_block, value, block_size);
+	return memset(memory_block, value, YUKI_CAST(u32, block_size));
 }
 
 YUKI_API void *
 memory_module_copy_block
-(void *dst_block, void *src_block, const u32 block_size)
+(void *dst_block, void *src_block, const u64 block_size)
 {
-	return memcpy(dst_block, src_block, block_size);
+	return memcpy(dst_block, src_block, YUKI_CAST(u32, block_size));
 }
 
 

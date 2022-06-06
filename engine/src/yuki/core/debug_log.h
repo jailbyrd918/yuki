@@ -1,7 +1,7 @@
 #ifndef YUKI_HEADER_DEBUG_LOG
 #define YUKI_HEADER_DEBUG_LOG
 
-#include "yuki/broadcast.h"
+#include "yuki/platform/filesystem.h"
 
 
 typedef	enum e_yuki_log_level {

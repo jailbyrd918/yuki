@@ -63,10 +63,10 @@ bool
 filesystem_write_data_to_file
 (yuki_file_handle *handle, const void *data, const u32 data_size);
 
-const_str
+
+YUKI_API const_str
 filesystem_get_filename_from_filepath
 (const_str filepath);
-
 
 
 #endif
