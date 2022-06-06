@@ -7,6 +7,7 @@
 #include "yuki/platform/window.h"
 #include "yuki/gameplay/event.h"
 #include "yuki/gameplay/input.h"
+#include "yuki/renderer/frontend/renderer.h"
 
 #include "yuki/core/application/application.h"
 
@@ -42,11 +43,15 @@ typedef struct s_yuki_application_state {
 	u64	input_module_required_memory_size;
 	void	*input_module_state;
 
+	u64	render_module_required_memory_size;
+	void	*render_module_state;
+
+
 }
 yuki_application_state;
 
 static yuki_application_state *app_state;
-
+static yuki_render_data render_data;
 
 static bool
 _ykstatic_app_on_event
@@ -147,7 +152,7 @@ application_construct
 	// allocate stack allocator with capacity of 32 MB
 	linear_allocator_construct(&app_state->modules_allocator, 32 * (1024 * 1024), NULL);
 
-	// initialize modules
+	// modules startup
 	{
 		// memory module
 		memory_module_startup(&app_state->memory_module_required_memory_size, NULL);
@@ -157,7 +162,7 @@ application_construct
 			return false;
 		}
 
-		// debug log module
+		// log module
 		log_module_startup("out/log.txt", &app_state->log_module_required_memory_size, NULL);
 		app_state->log_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->log_module_required_memory_size);
 		if (!log_module_startup("out/log.txt", &app_state->log_module_required_memory_size, app_state->log_module_state)) {
@@ -191,6 +196,14 @@ application_construct
 			YUKI_LOG_CRITICAL("failed to initialize input module!");
 			return false;
 		}
+		
+		// render module
+		render_module_startup(&app_state->render_module_required_memory_size, NULL, &app_state->window_module);
+		app_state->render_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->render_module_required_memory_size);
+		if (!render_module_startup(&app_state->render_module_required_memory_size, app_state->render_module_state, &app_state->window_module)) {
+			YUKI_LOG_CRITICAL("failed to initialize renderer subsystem!");
+			return false;
+		}
 	}
 
 	// initialize strings management list
@@ -207,6 +220,17 @@ application_construct
 		event_module_register_event(NULL, YUKI_EVENT_CODE_APP_QUIT, _ykstatic_app_on_event);
 		event_module_register_event(NULL, YUKI_EVENT_CODE_KEY_PRESSED, _ykstatic_app_on_key);
 		event_module_register_event(NULL, YUKI_EVENT_CODE_KEY_RELEASED, _ykstatic_app_on_key);
+	}
+	
+	// allocate/initialize render data properties 
+	{
+		render_data.delta_time = 0.f;
+		render_data.display_width = window_module_get_width(&app_state->window_module);
+		render_data.display_height = window_module_get_height(&app_state->window_module);
+
+		u32 numpx = window_module_get_width(&app_state->window_module) * window_module_get_height(&app_state->window_module);
+		render_data.z_buffer = memory_module_allocate_block(sizeof(f32) * numpx, YUKI_MEMORY_TAG_RENDERER);
+		render_data.display_buffer = memory_module_allocate_block(sizeof(color32) * numpx, YUKI_MEMORY_TAG_RENDERER);
 	}
 
 	// initialize game instance
@@ -242,6 +266,9 @@ application_run
 			return false;
 		}
 
+		render_data.delta_time = app_state->delta_time;
+		render_module_draw_frame(&render_data, &app_state->window_module);
+
 		input_module_update(app_state->delta_time);
 
 	} while (app_state->active);
@@ -258,6 +285,9 @@ application_run
 
 	// modules shutdown
 	{
+		// render module
+		render_module_shutdown(app_state->render_module_state);
+
 		// input module 
 		input_module_shutdown(app_state->input_module_state);
 
@@ -266,6 +296,12 @@ application_run
 
 		// window module
 		window_module_shutdown(&app_state->window_module);
+	}
+
+	// deallocate render data properties
+	{
+		memory_module_deallocate_block(render_data.z_buffer, sizeof(f32) * (render_data.display_width * render_data.display_height), YUKI_MEMORY_TAG_RENDERER);
+		memory_module_deallocate_block(render_data.display_buffer, sizeof(color32) * (render_data.display_width * render_data.display_height), YUKI_MEMORY_TAG_RENDERER);
 	}
 
 	// deallocate game state

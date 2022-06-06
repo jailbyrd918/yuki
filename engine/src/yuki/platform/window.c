@@ -44,7 +44,7 @@ window_module_shutdown
 (yuki_window_module *window_module)
 {
 	if (!window_module) {
-		YUKI_LOG_ERROR("window_module should not be null!");
+		YUKI_LOG_ERROR("window_module is null!");
 		return false;
 	}
 

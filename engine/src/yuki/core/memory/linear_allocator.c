@@ -28,7 +28,7 @@ linear_allocator_destruct
 (yuki_linear_allocator *allocator)
 {
 	if (!allocator) {
-		YUKI_LOG_ERROR("linear allocator should not be null!");
+		YUKI_LOG_ERROR("linear allocator is null!");
 		return false;
 	}
 

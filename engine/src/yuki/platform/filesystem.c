@@ -43,7 +43,7 @@ filesystem_close_file
 (yuki_file_handle *handle)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return false;
 	}
 
@@ -75,7 +75,7 @@ filesystem_get_file_size
 (yuki_file_handle *handle)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return false;
 	}
 
@@ -94,7 +94,7 @@ filesystem_read_line_from_file
 (yuki_file_handle *handle, const u32 buffer_max_length, str *line_buffer, u32 *line_buffer_length)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return false;
 	}
 
@@ -113,7 +113,7 @@ filesystem_write_line_to_file
 (yuki_file_handle *handle, const_str text)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return false;
 	}
 
@@ -132,7 +132,7 @@ filesystem_read_all_text_from_file
 (yuki_file_handle *handle, u32 *read_bytes)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return NULL;
 	}
 
@@ -150,7 +150,7 @@ filesystem_write_data_to_file
 (yuki_file_handle *handle, const void *data, const u32 data_size)
 {
 	if (!handle->ref) {
-		YUKI_LOG_ERROR("reference to file handle should not be null!");
+		YUKI_LOG_ERROR("reference to file handle is null!");
 		return false;
 	}
 

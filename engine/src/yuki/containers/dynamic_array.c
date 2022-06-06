@@ -32,7 +32,7 @@ _ykimpl_dynamic_array_deallocate
 (void *dynamic_array)
 {
 	if (!dynamic_array) {
-		YUKI_LOG_ERROR("dynamic array should not be null!");
+		YUKI_LOG_ERROR("dynamic array is null!");
 		return false;
 	}
 
@@ -47,7 +47,7 @@ _ykimpl_dynamic_array_resize
 (void *dynamic_array)
 {
 	if (!dynamic_array) {
-		YUKI_LOG_ERROR("dynamic array should not be null!");
+		YUKI_LOG_ERROR("dynamic array is null!");
 		return NULL;
 	}
 
