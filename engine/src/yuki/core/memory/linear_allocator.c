@@ -4,7 +4,6 @@
 #include "yuki/core/memory/linear_allocator.h"
 
 #include <stdlib.h>
-#include <string.h>
 
 
 YUKI_API bool

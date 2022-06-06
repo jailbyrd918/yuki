@@ -9,7 +9,7 @@
 #include <SDL2/SDL.h>
 
 
-typedef struct s_yuki_window_internal_state {
+typedef struct s_yuki_window_module_state {
 
 	SDL_Window	*window;
 
@@ -17,16 +17,16 @@ typedef struct s_yuki_window_internal_state {
 	s32		width, height;
 
 }
-yuki_window_internal_state;
+yuki_window_module_state;
 
 
 YUKI_API bool
 window_module_startup
 (yuki_window_module *window_module, const_str title, const s32 x, const s32 y, const s32 width, const s32 height)
 {
-	window_module->state = malloc(sizeof(yuki_window_internal_state));
+	window_module->state = malloc(sizeof(yuki_window_module_state));
 
-	yuki_window_internal_state *state = YUKI_CAST(yuki_window_internal_state *, window_module->state);
+	yuki_window_module_state *state = YUKI_CAST(yuki_window_module_state *, window_module->state);
 
 	// create SDL window
 	state->window = SDL_CreateWindow(title, x, y, width, height, SDL_WINDOW_SHOWN);
@@ -48,7 +48,7 @@ window_module_shutdown
 		return false;
 	}
 
-	yuki_window_internal_state *state = YUKI_CAST(yuki_window_internal_state *, window_module->state);
+	yuki_window_module_state *state = YUKI_CAST(yuki_window_module_state *, window_module->state);
 
 	// destroy window
 	SDL_DestroyWindow(state->window);
@@ -138,19 +138,19 @@ inline YUKI_API const s32
 window_module_get_width
 (yuki_window_module *window_module)
 {
-	return YUKI_CAST(yuki_window_internal_state *, window_module->state)->width;
+	return YUKI_CAST(yuki_window_module_state *, window_module->state)->width;
 }
 
 inline YUKI_API const s32
 window_module_get_height
 (yuki_window_module *window_module)
 {
-	return YUKI_CAST(yuki_window_internal_state *, window_module->state)->height;
+	return YUKI_CAST(yuki_window_module_state *, window_module->state)->height;
 }
 
 inline YUKI_API const struct SDL_Window *
 window_module_get_sdl_window
 (yuki_window_module *window_module)
 {
-	return YUKI_CAST(yuki_window_internal_state *, window_module->state)->window;
+	return YUKI_CAST(yuki_window_module_state *, window_module->state)->window;
 }

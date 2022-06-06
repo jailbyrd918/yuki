@@ -11,7 +11,6 @@
 #include "yuki/core/application/application.h"
 
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 #include <SDL2/SDL.h>
 
@@ -42,10 +41,6 @@ typedef struct s_yuki_application_state {
 
 	u64	input_module_required_memory_size;
 	void	*input_module_state;
-
-	u64	window_module_required_memory_size;
-	void	*window_module_state;
-
 
 }
 yuki_application_state;
@@ -170,7 +165,7 @@ application_construct
 			return false;
 		}
 
-		// construct application window
+		// window module
 		if (!window_module_startup(
 			&app_state->window_module,
 			game->config.name,
@@ -261,29 +256,29 @@ application_run
 	// shutdown strings management list
 	str_shutdown();
 
-	// subsystems shutdown
+	// modules shutdown
 	{
-		// input subsystem
+		// input module 
 		input_module_shutdown(app_state->input_module_state);
 
-		// event subsystem
+		// event module 
 		event_module_shutdown(app_state->event_module_state);
-	}
 
-	// shutdown window
-	window_module_shutdown(&app_state->window_module);
+		// window module
+		window_module_shutdown(&app_state->window_module);
+	}
 
 	// deallocate game state
 	memory_module_deallocate_block(game->state, sizeof(yuki_game_state), YUKI_MEMORY_TAG_GAME);
 
 	YUKI_LOG_INFO(memory_module_get_usage_info());
 
-	// subsystems shutdown
+	// modules shutdown
 	{
-		// memory subsystem
+		// memory modules
 		memory_module_shutdown(app_state->memory_module_state);
 
-		// debug logging subsystem
+		// debug logging modules
 		log_module_shutdown(app_state->log_module_state);
 	}
 
