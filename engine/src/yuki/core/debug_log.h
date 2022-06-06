@@ -17,6 +17,8 @@ typedef	enum e_yuki_log_level {
 }
 yuki_log_level;
 
+#define	YUKI_LOG_ENTRY_BUFFER_MAX	32767
+
 
 bool
 log_module_startup

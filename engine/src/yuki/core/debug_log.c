@@ -1,4 +1,5 @@
 #include "yuki/platform/filesystem.h"
+#include "yuki/core/memory/memory_module.h"
 
 #include "yuki/core/debug_log.h"
 
@@ -17,11 +18,10 @@ yuki_log_module_state;
 
 static yuki_log_module_state *state_ref;
 
-#define	LOG_ENTRY_BUFFER_MAX	32767
 
 
 static bool
-sf_append_to_output_log_file
+_ykstatic_append_to_output_log_file
 (const_str message)
 {
 	if (!state_ref || !state_ref->handle.is_valid || !state_ref->handle.ref)
@@ -45,7 +45,7 @@ log_module_startup
 		return false;
 
 	state_ref = YUKI_CAST(yuki_log_module_state *, state);
-	memset(state_ref, 0, sizeof(yuki_log_module_state));
+	memory_module_set_block_zero(state_ref, sizeof(yuki_log_module_state));
 
 	if (log_output_filepath && strlen(log_output_filepath) > 0) {
 		if (!filesystem_open_file(log_output_filepath, YUKI_FILE_IO_MODE_WRITE, YUKI_FILE_MODE_TEXT, &state_ref->handle)) {
@@ -83,23 +83,23 @@ log_output_print
 	const_str lvlmsg;
 	switch (log_level) {
 		case YUKI_LOG_LEVEL_CRITICAL:	lvlmsg = "CRITICAL";	break;
-		case YUKI_LOG_LEVEL_ERROR:		lvlmsg = "ERROR   ";	break;
-		case YUKI_LOG_LEVEL_WARNING:		lvlmsg = "WARNING ";	break;
-		case YUKI_LOG_LEVEL_INFO:		lvlmsg = "INFO    ";	break;
-		case YUKI_LOG_LEVEL_DEBUG:		lvlmsg = "DEBUG   ";	break;
-		case YUKI_LOG_LEVEL_VERBOSE:		lvlmsg = "VERBOSE ";	break;
-		default:							break;
+		case YUKI_LOG_LEVEL_ERROR:	lvlmsg = "ERROR   ";	break;
+		case YUKI_LOG_LEVEL_WARNING:	lvlmsg = "WARNING ";	break;
+		case YUKI_LOG_LEVEL_INFO:	lvlmsg = "INFO    ";	break;
+		case YUKI_LOG_LEVEL_DEBUG:	lvlmsg = "DEBUG   ";	break;
+		case YUKI_LOG_LEVEL_VERBOSE:	lvlmsg = "VERBOSE ";	break;
+		default:						break;
 	}
 
-	char	fmtmsg[LOG_ENTRY_BUFFER_MAX] = { '\0' },
-		timemsg[LOG_ENTRY_BUFFER_MAX] = { '\0' },
-		outmsg[LOG_ENTRY_BUFFER_MAX] = { '\0' };
+	char	fmtmsg[YUKI_LOG_ENTRY_BUFFER_MAX] = { '\0' },
+		timemsg[YUKI_LOG_ENTRY_BUFFER_MAX] = { '\0' },
+		outmsg[YUKI_LOG_ENTRY_BUFFER_MAX] = { '\0' };
 
 	// construct formatted message
 	{
 		YUKI_VA_LIST ls;
 		va_start(ls, message);
-		vsnprintf(fmtmsg, LOG_ENTRY_BUFFER_MAX, message, ls);
+		vsnprintf(fmtmsg, YUKI_LOG_ENTRY_BUFFER_MAX, message, ls);
 		va_end(ls);
 	}
 
@@ -107,7 +107,7 @@ log_output_print
 	{
 		time_t now = time(NULL);
 		struct tm *local = localtime(&now);
-		strftime(timemsg, LOG_ENTRY_BUFFER_MAX, "%F %T", local);
+		strftime(timemsg, YUKI_LOG_ENTRY_BUFFER_MAX, "%F %T", local);
 	}
 
 	// format final output message
@@ -143,6 +143,6 @@ log_output_print
 
 	// print final output message to file
 	if (state_ref->handle.is_valid)
-		sf_append_to_output_log_file(outmsg);
+		_ykstatic_append_to_output_log_file(outmsg);
 
 }
