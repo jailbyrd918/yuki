@@ -80,6 +80,14 @@ typedef		const char *		const_str;
 #endif
 
 
+// -- disable MSVC-specific secure and deprecated function warnings -- //
+
+#if	defined(_MSC_VER)
+#	define	_CRT_SECURE_NO_WARNINGS
+#	pragma	warning	(disable : 4996)
+#endif
+
+
 // -- debug break -- //
 
 #if	defined(_MSC_VER)					// MSVC compiler
