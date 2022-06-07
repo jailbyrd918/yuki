@@ -7,7 +7,8 @@
 #include "yuki/platform/window.h"
 #include "yuki/gameplay/event.h"
 #include "yuki/gameplay/input.h"
-#include "yuki/renderer/frontend/renderer.h"
+#include "yuki/resources/resource_module.h"
+#include "yuki/renderer/frontend/render_module.h"
 
 #include "yuki/core/application/application.h"
 
@@ -43,15 +44,18 @@ typedef struct s_yuki_application_state {
 	u64	input_module_required_memory_size;
 	void	*input_module_state;
 
+	u64	resource_module_required_memory_size;
+	void	*resource_module_state;
+
 	u64	render_module_required_memory_size;
 	void	*render_module_state;
-
 
 }
 yuki_application_state;
 
 static yuki_application_state *app_state;
 static yuki_render_data render_data;
+
 
 static bool
 _ykstatic_app_on_event
@@ -196,7 +200,18 @@ application_construct
 			YUKI_LOG_CRITICAL("failed to initialize input module!");
 			return false;
 		}
-		
+
+		// resource module
+		yuki_resource_module_config resrcconfig;
+		resrcconfig.asset_base_path = "assets";
+		resrcconfig.register_loaders_count = 1;
+		resource_module_startup(&app_state->resource_module_required_memory_size, NULL, resrcconfig);
+		app_state->resource_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->resource_module_required_memory_size);
+		if (!resource_module_startup(&app_state->resource_module_required_memory_size, app_state->resource_module_state, resrcconfig)) {
+			YUKI_LOG_CRITICAL("failed to initialize resource module!");
+			return false;
+		}
+
 		// render module
 		render_module_startup(&app_state->render_module_required_memory_size, NULL, &app_state->window_module);
 		app_state->render_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->render_module_required_memory_size);
@@ -221,7 +236,7 @@ application_construct
 		event_module_register_event(NULL, YUKI_EVENT_CODE_KEY_PRESSED, _ykstatic_app_on_key);
 		event_module_register_event(NULL, YUKI_EVENT_CODE_KEY_RELEASED, _ykstatic_app_on_key);
 	}
-	
+
 	// allocate/initialize render data properties 
 	{
 		render_data.delta_time = 0.f;
@@ -287,6 +302,9 @@ application_run
 	{
 		// render module
 		render_module_shutdown(app_state->render_module_state);
+
+		// resource module
+		resource_module_shutdown(app_state->resource_module_state);
 
 		// input module 
 		input_module_shutdown(app_state->input_module_state);

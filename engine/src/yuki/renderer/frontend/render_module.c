@@ -3,16 +3,16 @@
 #include "yuki/platform/window.h"
 #include "yuki/gameplay/input.h"
 #include "yuki/renderer/backend/rasterizer.h"
-#include "yuki/renderer/backend/renderer_backend.h"
+#include "yuki/renderer/backend/renderer.h"
 
-#include "yuki/renderer/frontend/renderer.h"
+#include "yuki/renderer/frontend/render_module.h"
 
 #include <stdlib.h>
 
 
 typedef struct s_yuki_renderer_module_state {
 
-	yuki_renderer_backend	backend;
+	yuki_renderer	renderer;
 
 }
 yuki_renderer_module_state;
@@ -29,7 +29,7 @@ _ykstatic_renderer_begin_frame
 		return false;
 	}
 
-	return state_ref->backend.pfn_begin_frame(&state_ref->backend, data);
+	return state_ref->renderer.pfn_begin_frame(&state_ref->renderer, data);
 }
 
 static bool
@@ -41,7 +41,7 @@ _ykstatic_renderer_end_frame
 		return false;
 	}
 
-	return state_ref->backend.pfn_end_frame(&state_ref->backend, data, window_module);
+	return state_ref->renderer.pfn_end_frame(&state_ref->renderer, data, window_module);
 }
 
 
@@ -56,11 +56,11 @@ render_module_startup
 
 	state_ref = YUKI_CAST(yuki_renderer_module_state *, state);
 
-	renderer_backend_startup(&state_ref->backend, window_module);
-	state_ref->backend.frame_count = 0;
+	renderer_startup(&state_ref->renderer, window_module);
+	state_ref->renderer.frame_count = 0;
 
-	if (!state_ref->backend.pfn_startup(&state_ref->backend, window_module)) {
-		YUKI_LOG_CRITICAL("renderer backend failed to initialize!");
+	if (!state_ref->renderer.pfn_startup(&state_ref->renderer, window_module)) {
+		YUKI_LOG_CRITICAL("renderer renderer failed to initialize!");
 		return false;
 	}
 
@@ -72,7 +72,7 @@ render_module_shutdown
 (void *state)
 {
 	if (state) {
-		state_ref->backend.pfn_shutdown(&state_ref->backend);
+		state_ref->renderer.pfn_shutdown(&state_ref->renderer);
 		state_ref = NULL;
 	}
 }

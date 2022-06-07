@@ -1,5 +1,5 @@
-#ifndef DRIZZLE_HEADER_INPUT
-#define DRIZZLE_HEADER_INPUT
+#ifndef YUKI_HEADER_INPUT
+#define YUKI_HEADER_INPUT
 
 #include "yuki/gameplay/input_defs.h"
 

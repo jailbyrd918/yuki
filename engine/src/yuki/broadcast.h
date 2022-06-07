@@ -123,5 +123,11 @@ typedef		const char *		const_str;
 
 #endif
 
+// -- define values as invalid for any id set -- //
+
+#define YUKI_INVALID_ID_U8	255
+#define YUKI_INVALID_ID_U16	65535U
+#define	YUKI_INVALID_ID_U32	4294967295U
+
 
 #endif
