@@ -1,5 +1,6 @@
 #include "yuki/core/debug_log.h"
 #include "yuki/core/memory/memory_module.h"
+#include "yuki/renderer/frontend/texture.h"
 
 #include "yuki/renderer/backend/rasterizer.h"
 
@@ -12,7 +13,7 @@ rasterizer_clear_buffer
 (yuki_render_data *data)
 {
 	if (!data) {
-		YUKI_LOG_ERROR("render data should not be null!");
+		YUKI_LOG_ERROR("render data is null!");
 		return false;
 	}
 
@@ -26,7 +27,7 @@ rasterizer_clear_buffer_with_color
 (yuki_render_data *data, const color32 color)
 {
 	if (!data) {
-		YUKI_LOG_ERROR("render data should not be null!");
+		YUKI_LOG_ERROR("render data is null!");
 		return false;
 	}
 
@@ -52,7 +53,7 @@ rasterizer_draw_pixel
 (yuki_render_data *data, const s32 x, const s32 y, const color32 color)
 {
 	if (!data) {
-		YUKI_LOG_ERROR("render data should not be null!");
+		YUKI_LOG_ERROR("render data is null!");
 		return false;
 	}
 
@@ -66,7 +67,7 @@ rasterizer_draw_line
 (yuki_render_data *data, const s32 x1, const s32 y1, const s32 x2, const s32 y2, const color32 color)
 {
 	if (!data) {
-		YUKI_LOG_ERROR("render data should not be null!");
+		YUKI_LOG_ERROR("render data is null!");
 		return false;
 	}
 
@@ -96,3 +97,26 @@ rasterizer_draw_line
 
 	return true;
 }
+
+bool
+rasterizer_draw_texture_flat
+(yuki_render_data *data, const s32 x, const s32 y, const yuki_texture *texture)
+{
+	if (!data || !texture) {
+		YUKI_LOG_ERROR("%s is null!", !data ? "render data" : "reference to texture");
+		return false;
+	}
+
+	u32	copyw = YUKI_MATH_MIN(data->display_width - x, texture->width),
+		copyh = YUKI_MATH_MIN(data->display_height - y, texture->height);
+
+	for (u32 row = 0; row < copyh; ++row) {
+		color32	*dprowstart = data->display_buffer + (data->display_width * (y + row)) + x,
+			*texrowstart = YUKI_CAST(color_buffer, texture->data) + (texture->width * row);
+		memory_module_copy_block(dprowstart, texrowstart, sizeof(color32) * copyw);
+	}
+
+	return true;
+}
+
+

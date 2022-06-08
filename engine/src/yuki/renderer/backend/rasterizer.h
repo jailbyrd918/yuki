@@ -1,7 +1,9 @@
 #ifndef YUKI_HEADER_RASTERIZER
 #define YUKI_HEADER_RASTERIZER
 
+#include "yuki/math/math_defs.h"
 #include "yuki/renderer/renderer_defs.h"
+#include "yuki/resources/resource_defs.h"
 
 
 bool
@@ -21,6 +23,9 @@ bool
 rasterizer_draw_line
 (yuki_render_data *data, const s32 x1, const s32 y1, const s32 x2, const s32 y2, const color32 color);
 
+bool
+rasterizer_draw_texture_flat
+(yuki_render_data *data, const s32 x, const s32 y, const yuki_texture *texture);
 
 
 #endif

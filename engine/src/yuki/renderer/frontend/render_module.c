@@ -4,6 +4,7 @@
 #include "yuki/gameplay/input.h"
 #include "yuki/renderer/backend/rasterizer.h"
 #include "yuki/renderer/backend/renderer.h"
+#include "yuki/renderer/frontend/texture.h"
 
 #include "yuki/renderer/frontend/render_module.h"
 
@@ -86,7 +87,6 @@ render_module_draw_frame
 
 		// start drawing below here ...
 
-		rasterizer_draw_line(data, 50, 50, input_module_get_mouse_x(), input_module_get_mouse_y(), YUKI_ASSIGN_COLOR_RGB(0xff, 0xff, 0xff));
 
 		// stop drawing above here ...
 

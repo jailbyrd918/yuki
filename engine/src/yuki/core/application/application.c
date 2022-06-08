@@ -8,6 +8,7 @@
 #include "yuki/gameplay/event.h"
 #include "yuki/gameplay/input.h"
 #include "yuki/resources/resource_module.h"
+#include "yuki/renderer/frontend/texture.h"
 #include "yuki/renderer/frontend/render_module.h"
 
 #include "yuki/core/application/application.h"
@@ -46,6 +47,9 @@ typedef struct s_yuki_application_state {
 
 	u64	resource_module_required_memory_size;
 	void	*resource_module_state;
+	
+	u64	texture_module_required_memory_size;
+	void	*texture_module_state;
 
 	u64	render_module_required_memory_size;
 	void	*render_module_state;
@@ -212,6 +216,13 @@ application_construct
 			return false;
 		}
 
+		// texture module
+		yuki_texture_module_config texconfig;
+		texconfig.max_textures_count = 1;
+		texture_module_startup(&app_state->texture_module_required_memory_size, NULL, texconfig);
+		app_state->texture_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->texture_module_required_memory_size);
+		texture_module_startup(&app_state->texture_module_required_memory_size, app_state->texture_module_state, texconfig);
+
 		// render module
 		render_module_startup(&app_state->render_module_required_memory_size, NULL, &app_state->window_module);
 		app_state->render_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->render_module_required_memory_size);
@@ -302,6 +313,9 @@ application_run
 	{
 		// render module
 		render_module_shutdown(app_state->render_module_state);
+
+		// texture module
+		texture_module_shutdown(app_state->texture_module_state);
 
 		// resource module
 		resource_module_shutdown(app_state->resource_module_state);

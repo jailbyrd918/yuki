@@ -61,7 +61,7 @@ filesystem_check_file_exists
 {
 #if	defined(_MSC_VER)			// MSVC compiler
 	struct _stat buffer;
-	return _stat(filepath, &buffer);
+	return _stat(filepath, &buffer) == 0;
 
 #else						// non-MSVC compiler
 	struct stat buffer;
