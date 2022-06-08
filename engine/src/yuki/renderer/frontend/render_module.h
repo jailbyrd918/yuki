@@ -1,5 +1,5 @@
-#ifndef YUKI_HEADER_RENDERER
-#define YUKI_HEADER_RENDERER
+#ifndef YUKI_HEADER_RENDER_MODULE
+#define YUKI_HEADER_RENDER_MODULE
 
 #include "yuki/renderer/renderer_defs.h"
 

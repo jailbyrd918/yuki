@@ -131,4 +131,15 @@ typedef		const char *		const_str;
 #define	YUKI_INVALID_ID_U32	4294967295U
 
 
+// -- define swapping macro of any type -- //
+
+#define	YUKI_SWAP(type, left, right)	\
+	{	\
+		type temp = *(&(left));	\
+		*(&(left)) = *(&(right));	\
+		*(&(right)) = temp;	\
+	}
+
+
+
 #endif

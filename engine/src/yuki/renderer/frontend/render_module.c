@@ -88,6 +88,7 @@ render_module_draw_frame
 		// start drawing below here ...
 
 
+
 		// stop drawing above here ...
 
 		if (!_ykstatic_renderer_end_frame(data, window_module)) {
