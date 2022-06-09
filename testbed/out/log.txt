@@ -1,8 +1,13 @@
-[2022-06-08 12:33:41] (input.c : 52) INFO    >> initialized input subsytem.
-[2022-06-08 12:33:41] (resource_module.c : 109) VERBOSE >> loader of type 'IMAGE' registered.
-[2022-06-08 12:33:41] (renderer.c : 102) INFO    >> renderer is successfully initialized.
-[2022-06-08 12:33:41] (game.c : 11) DEBUG   >> game_init() called from testbed
-[2022-06-08 12:33:41] (application.c : 268) INFO    >> 
+[2022-06-09 12:58:50] (input.c : 52) INFO    >> initialized input subsytem.
+[2022-06-09 12:58:50] (resource_module.c : 112) VERBOSE >> loader of type 'IMAGE' registered.
+[2022-06-09 12:58:50] (resource_module.c : 112) VERBOSE >> loader of type 'MESH' registered.
+[2022-06-09 12:58:50] (renderer.c : 102) INFO    >> renderer is successfully initialized.
+[2022-06-09 12:58:50] (game.c : 11) DEBUG   >> game_init() called from testbed
+[2022-06-09 12:58:50] (mesh.c : 154) VERBOSE >> created mesh 'cube', now ref_count is 1
+[2022-06-09 12:58:50] (application.c : 291) INFO    >> faces count = 12
+[2022-06-09 12:58:50] (application.c : 292) INFO    >> uv count = 4
+[2022-06-09 12:58:50] (application.c : 293) INFO    >> vertices count = 8
+[2022-06-09 12:58:50] (application.c : 296) INFO    >> 
 ============= Memory Usage =============
 UNKNOWN    	-	0.00 B
 STATIC_ARR 	-	0.00 B
@@ -13,10 +18,12 @@ APPLICATION	-	0.00 B
 STRING     	-	0.00 B
 TEXTURE    	-	0.00 B
 MAT_INST   	-	0.00 B
+GEOMETRY   	-	560.00 B
 RENDERER   	-	6.00 MiB
 
-[2022-06-08 12:33:46] (application.c : 71) INFO    >> EVENT_CODE_APP_QUIT invoked - shutting down...
-[2022-06-08 12:33:46] (application.c : 342) INFO    >> 
+[2022-06-09 12:58:53] (application.c : 77) INFO    >> EVENT_CODE_APP_QUIT invoked - shutting down...
+[2022-06-09 12:58:53] (mesh.c : 126) VERBOSE >> released mesh 'cube'.
+[2022-06-09 12:58:53] (application.c : 377) INFO    >> 
 ============= Memory Usage =============
 UNKNOWN    	-	0.00 B
 STATIC_ARR 	-	0.00 B
@@ -27,6 +34,7 @@ APPLICATION	-	0.00 B
 STRING     	-	0.00 B
 TEXTURE    	-	0.00 B
 MAT_INST   	-	0.00 B
+GEOMETRY   	-	0.00 B
 RENDERER   	-	0.00 B
 
-[2022-06-08 12:33:46] (memory_module.c : 77) INFO    >> memory blocks of all tags are fully deallocated.
+[2022-06-09 12:58:53] (memory_module.c : 78) INFO    >> memory blocks of all tags are fully deallocated.

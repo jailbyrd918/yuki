@@ -1,5 +1,6 @@
 #include "yuki/core/debug_log.h"
 #include "yuki/resources/loaders/image_loader.h"
+#include "yuki/resources/loaders/mesh_loader.h"
 
 #include "yuki/resources/resource_module.h"
 
@@ -17,7 +18,8 @@ yuki_resource_module_state;
 static yuki_resource_module_state *state_ref;
 
 static const_str resource_type_str_list[YUKI_RESOURCE_TYPES_NUM] = {
-	"IMAGE"
+	"IMAGE",
+	"MESH"
 };
 
 
@@ -63,7 +65,8 @@ resource_module_startup
 
 	// register loaders
 	{
-		resource_module_register_loader(resouce_image_loader_construct());
+		resource_module_register_loader(resource_image_loader_construct());
+		resource_module_register_loader(resource_mesh_loader_construct());
 	}
 
 	return true;

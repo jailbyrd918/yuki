@@ -5,7 +5,7 @@
 
 
 yuki_resource_loader
-resouce_image_loader_construct
+resource_image_loader_construct
 (void);
 
 

@@ -9,6 +9,7 @@
 #include "yuki/gameplay/input.h"
 #include "yuki/resources/resource_module.h"
 #include "yuki/renderer/frontend/texture.h"
+#include "yuki/renderer/frontend/mesh.h"
 #include "yuki/renderer/frontend/render_module.h"
 
 #include "yuki/core/application/application.h"
@@ -47,9 +48,12 @@ typedef struct s_yuki_application_state {
 
 	u64	resource_module_required_memory_size;
 	void	*resource_module_state;
-	
+
 	u64	texture_module_required_memory_size;
 	void	*texture_module_state;
+
+	u64	mesh_module_required_memory_size;
+	void	*mesh_module_state;
 
 	u64	render_module_required_memory_size;
 	void	*render_module_state;
@@ -59,6 +63,8 @@ yuki_application_state;
 
 static yuki_application_state *app_state;
 static yuki_render_data render_data;
+
+static yuki_mesh *g_mesh;
 
 
 static bool
@@ -158,7 +164,7 @@ application_construct
 	}
 
 	// allocate stack allocator with capacity of 32 MB
-	linear_allocator_construct(&app_state->modules_allocator, 32 * (1024 * 1024), NULL);
+	linear_allocator_construct(&app_state->modules_allocator, 64 * (1024 * 1024), NULL);
 
 	// modules startup
 	{
@@ -208,7 +214,7 @@ application_construct
 		// resource module
 		yuki_resource_module_config resrcconfig;
 		resrcconfig.asset_base_path = "assets";
-		resrcconfig.register_loaders_count = 1;
+		resrcconfig.register_loaders_count = 2;
 		resource_module_startup(&app_state->resource_module_required_memory_size, NULL, resrcconfig);
 		app_state->resource_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->resource_module_required_memory_size);
 		if (!resource_module_startup(&app_state->resource_module_required_memory_size, app_state->resource_module_state, resrcconfig)) {
@@ -221,13 +227,26 @@ application_construct
 		texconfig.max_textures_count = 1;
 		texture_module_startup(&app_state->texture_module_required_memory_size, NULL, texconfig);
 		app_state->texture_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->texture_module_required_memory_size);
-		texture_module_startup(&app_state->texture_module_required_memory_size, app_state->texture_module_state, texconfig);
+		if (!texture_module_startup(&app_state->texture_module_required_memory_size, app_state->texture_module_state, texconfig)) {
+			YUKI_LOG_CRITICAL("failed to initialize texture module!");
+			return false;
+		}
+
+		// mesh module 
+		yuki_mesh_module_config meshconfig;
+		meshconfig.max_meshes_count = 1;
+		mesh_module_startup(&app_state->mesh_module_required_memory_size, NULL, meshconfig);
+		app_state->mesh_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->mesh_module_required_memory_size);
+		if (!mesh_module_startup(&app_state->mesh_module_required_memory_size, app_state->mesh_module_state, meshconfig)) {
+			YUKI_LOG_CRITICAL("failed to initialize mesh module!");
+			return false;
+		}
 
 		// render module
 		render_module_startup(&app_state->render_module_required_memory_size, NULL, &app_state->window_module);
 		app_state->render_module_state = linear_allocator_allocate(&app_state->modules_allocator, app_state->render_module_required_memory_size);
 		if (!render_module_startup(&app_state->render_module_required_memory_size, app_state->render_module_state, &app_state->window_module)) {
-			YUKI_LOG_CRITICAL("failed to initialize renderer subsystem!");
+			YUKI_LOG_CRITICAL("failed to initialize renderer module!");
 			return false;
 		}
 	}
@@ -263,6 +282,15 @@ application_construct
 	if (!app_state->game->pfn_init(app_state->game)) {
 		YUKI_LOG_CRITICAL("failed to initialize game instance!");
 		return false;
+	}
+
+	{
+		g_mesh = mesh_module_acquire_mesh("cube");
+
+		yuki_mesh_resource_data *data = YUKI_CAST(yuki_mesh_resource_data *, g_mesh->data);
+		YUKI_LOG_INFO("faces count = %u", data->faces_count);
+		YUKI_LOG_INFO("uv count = %u", data->uv_coordinates_count);
+		YUKI_LOG_INFO("vertices count = %u", data->vertices_count);
 	}
 
 	YUKI_LOG_INFO(memory_module_get_usage_info());
@@ -309,10 +337,17 @@ application_run
 	// shutdown strings management list
 	str_shutdown();
 
+	// shutdown render module
+	render_module_shutdown(app_state->render_module_state);
+
+	{
+		mesh_module_release_mesh("cube");
+	}
+
 	// modules shutdown
 	{
-		// render module
-		render_module_shutdown(app_state->render_module_state);
+		// mesh module
+		mesh_module_shutdown(app_state->mesh_module_state);
 
 		// texture module
 		texture_module_shutdown(app_state->texture_module_state);

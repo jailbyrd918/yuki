@@ -6,7 +6,7 @@
 
 bool
 render_module_startup
-(u64 *required_memory_size, void *state, yuki_window_module *window_module);
+(u64 *required_memory_size, void *state, struct s_yuki_window_module *window_module);
 
 void
 render_module_shutdown
@@ -15,7 +15,7 @@ render_module_shutdown
 
 bool
 render_module_draw_frame
-(yuki_render_data *data, yuki_window_module *window_module);
+(yuki_render_data *data, struct s_yuki_window_module *window_module);
 
 
 #endif

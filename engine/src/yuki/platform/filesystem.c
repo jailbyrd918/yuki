@@ -15,12 +15,12 @@ filesystem_open_file
 	handle->ref = NULL;
 
 	const_str modestr;
-	if ((io_mode & YUKI_FILE_IO_MODE_READ_WRITE) > 0)
-		modestr = (mode & YUKI_FILE_MODE_BINARY) > 0 ? "w+b" : "w+";
-	else if ((io_mode & YUKI_FILE_IO_MODE_READ) > 0)
-		modestr = (mode & YUKI_FILE_MODE_BINARY) > 0 ? "rb" : "r";
-	else if ((io_mode & YUKI_FILE_IO_MODE_WRITE) > 0)
-		modestr = (mode & YUKI_FILE_MODE_BINARY) > 0 ? "wb" : "w";
+	if (io_mode == YUKI_FILE_IO_MODE_READ_WRITE)
+		modestr = (mode == YUKI_FILE_MODE_BINARY) ? "w+b" : "w+";
+	else if (io_mode == YUKI_FILE_IO_MODE_READ)
+		modestr = (mode == YUKI_FILE_MODE_BINARY) ? "rb" : "r";
+	else if (io_mode == YUKI_FILE_IO_MODE_WRITE)
+		modestr = (mode == YUKI_FILE_MODE_BINARY) ? "wb" : "w";
 	else {
 		YUKI_LOG_ERROR("invalid modes provided to open a file from path '%s'", filepath);
 		return false;
@@ -99,7 +99,7 @@ filesystem_read_line_from_file
 	}
 
 	if ((line_buffer && line_buffer_length) && (buffer_max_length > 0)) {
-		if (fgets(*line_buffer, buffer_max_length, YUKI_CAST(FILE *, handle->ref)) != NULL) {
+		if (fgets(*line_buffer, buffer_max_length, YUKI_CAST(FILE *, handle->ref))) {
 			*line_buffer_length = strlen(*line_buffer);
 			return true;
 		}

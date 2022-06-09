@@ -37,6 +37,7 @@ static const_str mem_tag_str_list[YUKI_MEMORY_TAGS_NUM] = {
 	"STRING     ",
 	"TEXTURE    ",
 	"MAT_INST   ",
+	"GEOMETRY   ",
 	"RENDERER   ",
 };
 

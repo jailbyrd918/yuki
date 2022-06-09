@@ -116,7 +116,7 @@ _ykstatic_process_texture_ref
 			texref.auto_release = false;
 		}
 
-		YUKI_LOG_VERBOSE("release texture '%s'.", tempname);
+		YUKI_LOG_VERBOSE("released texture '%s'.", tempname);
 	}
 	else {
 		// if the handle is new
@@ -130,7 +130,7 @@ _ykstatic_process_texture_ref
 			}
 
 			// not avaiable slot found, bail
-			if (*texture_id_ref) {
+			if (*texture_id_ref == YUKI_INVALID_ID_U32) {
 				YUKI_LOG_CRITICAL("texture module cannot hold anymore textures - configuration adjustment is required!");
 				return false;
 			}
@@ -149,11 +149,11 @@ _ykstatic_process_texture_ref
 		}
 		else {
 			*texture_id_ref = texref.handle;
-			YUKI_LOG_VERBOSE("texture '%s' already exists, ref_count increased to %u.", texture_name, texref.ref_count);;
+			YUKI_LOG_VERBOSE("texture '%s' already exists, ref_count increased to %u.", texture_name, texref.ref_count);
 		}
 	}
 
-	hash_table_set(&state_ref->registered_texture_table, tempname, &texref);
+	hash_table_set(&state_ref->registered_texture_table, texture_name, &texref);
 	return true;
 }
 
@@ -223,7 +223,7 @@ texture_module_acquire_texture
 
 	u32 id = YUKI_INVALID_ID_U32;
 	if (!_ykstatic_process_texture_ref(&id, name, 1, true)) {
-		YUKI_LOG_ERROR("failed to obtain new texture id!");
+		YUKI_LOG_ERROR("failed to acquire texture '%s'!", name);
 		return NULL;
 	}
 
@@ -242,6 +242,7 @@ texture_module_release_texture
 	u32 id = YUKI_INVALID_ID_U32;
 	if (!_ykstatic_process_texture_ref(&id, name, -1, false)) {
 		YUKI_LOG_ERROR("failed to release texture '%s'!", name);
+		return false;
 	}
 
 	return true;

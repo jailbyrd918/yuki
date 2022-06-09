@@ -35,7 +35,7 @@ _ykstatic_image_loader_load
 
 	u32	numextensions = sizeof(extensions) / sizeof(*extensions);
 	for (u32 i = 0; i < numextensions; ++i) {
-		str_format_string(filepath, fmtstr, "assets", self->type_directory, name, extensions[i]);
+		str_format_string(filepath, fmtstr, resouce_module_get_base_filepath(), self->type_directory, name, extensions[i]);
 		
 		if (filesystem_check_file_exists(filepath)) {
 			imagefound = true;
@@ -99,7 +99,7 @@ _ykstatic_image_loader_unload
 
 
 yuki_resource_loader
-resouce_image_loader_construct
+resource_image_loader_construct
 (void)
 {
 	yuki_resource_loader loader;

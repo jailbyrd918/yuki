@@ -73,6 +73,7 @@ render_module_shutdown
 (void *state)
 {
 	if (state) {
+		state_ref = YUKI_CAST(yuki_renderer_module_state *, state);
 		state_ref->renderer.pfn_shutdown(&state_ref->renderer);
 		state_ref = NULL;
 	}
