@@ -18,7 +18,7 @@
 #define	YUKI_MATH_RAD2DEG(radian)	(radian * 180.0f / YUKI_MATH_PI)
 
 
-typedef	union u_vec2 {
+typedef	union u_yuki_vec2 {
 
 	struct {
 
@@ -37,9 +37,9 @@ typedef	union u_vec2 {
 	f32	elements[2];
 
 }
-vec2;
+yuki_vec2;
 
-typedef	union u_vec3 {
+typedef	union u_yuki_vec3 {
 
 	struct {
 
@@ -63,9 +63,9 @@ typedef	union u_vec3 {
 	f32	elements[3];
 
 }
-vec3;
+yuki_vec3;
 
-typedef	union u_vec4 {
+typedef	union u_yuki_vec4 {
 
 	struct {
 
@@ -94,14 +94,14 @@ typedef	union u_vec4 {
 	f32	elements[4];
 
 }
-vec4;
+yuki_vec4;
 
-typedef	union u_mat4 {
+typedef	union u_yuki_mat4 {
 
 	f32	elements[16];
 
 }
-mat4;
+yuki_mat4;
 
 
 

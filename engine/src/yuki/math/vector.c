@@ -8,102 +8,102 @@
 
 // 2d vector ///////////////////////////////////////////////////////////////
 
-const vec2
+const yuki_vec2
 vec2_new
 (const f32 x, const f32 y)
 {
-	return (vec2) { x, y };
+	return (yuki_vec2) { x, y };
 }
 
-const vec2
+const yuki_vec2
 vec2_copy
-(const vec2 vector)
+(const yuki_vec2 vector)
 {
-	return (vec2) { vector.x, vector.y };
+	return (yuki_vec2) { vector.x, vector.y };
 }
 
-const vec2
+const yuki_vec2
 vec2_zero
 (void)
 {
-	return (vec2) { 0.0f, 0.0f };
+	return (yuki_vec2) { 0.0f, 0.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_one
 (void)
 {
-	return (vec2) { 1.0f, 1.0f };;
+	return (yuki_vec2) { 1.0f, 1.0f };;
 }
 
-const vec2
+const yuki_vec2
 vec2_up
 (void)
 {
-	return (vec2) { 0.0f, 1.0f };
+	return (yuki_vec2) { 0.0f, 1.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_down
 (void)
 {
-	return (vec2) { 0.0f, -1.0f };
+	return (yuki_vec2) { 0.0f, -1.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_left
 (void)
 {
-	return (vec2) { -1.0f, 0.0f };
+	return (yuki_vec2) { -1.0f, 0.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_right
 (void)
 {
-	return (vec2) { 1.0f, 0.0f };
+	return (yuki_vec2) { 1.0f, 0.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_add
-(const vec2 left, const vec2 right)
+(const yuki_vec2 left, const yuki_vec2 right)
 {
-	return (vec2) { left.x + right.x, left.y + right.y };
+	return (yuki_vec2) { left.x + right.x, left.y + right.y };
 }
 
-const vec2
+const yuki_vec2
 vec2_sub
-(const vec2 left, const vec2 right)
+(const yuki_vec2 left, const yuki_vec2 right)
 {
-	return (vec2) { left.x - right.x, left.y - right.y };
+	return (yuki_vec2) { left.x - right.x, left.y - right.y };
 }
 
-const vec2
+const yuki_vec2
 vec2_mul_scalar
-(const vec2 vector, const f32 scalar)
+(const yuki_vec2 vector, const f32 scalar)
 {
-	return (vec2) { vector.x * scalar, vector.y * scalar };
+	return (yuki_vec2) { vector.x * scalar, vector.y * scalar };
 }
 
-const vec2
+const yuki_vec2
 vec2_div_scalar
-(const vec2 vector, const f32 scalar)
+(const yuki_vec2 vector, const f32 scalar)
 {
-	return (vec2) { scalar != 0 ? (vector.x / scalar) : 0.0f, scalar != 0 ? (vector.y / scalar) : 0.0f };
+	return (yuki_vec2) { scalar != 0 ? (vector.x / scalar) : 0.0f, scalar != 0 ? (vector.y / scalar) : 0.0f };
 }
 
-const vec2
+const yuki_vec2
 vec2_mul_vec2
-(const vec2 left, const vec2 right)
+(const yuki_vec2 left, const yuki_vec2 right)
 {
-	return (vec2) { left.x * right.x, left.y * right.y };
+	return (yuki_vec2) { left.x * right.x, left.y * right.y };
 }
 
-const vec2
+const yuki_vec2
 vec2_div_vec2
-(const vec2 left, const vec2 right)
+(const yuki_vec2 left, const yuki_vec2 right)
 {
-	return (vec2)
+	return (yuki_vec2)
 	{
 		right.x != 0 ? (left.x / right.x) : 0.0f, right.y != 0 ? (left.y / right.y) : 0.0f
 	};
@@ -111,14 +111,14 @@ vec2_div_vec2
 
 const f32
 vec2_get_magnitude
-(const vec2 vector)
+(const yuki_vec2 vector)
 {
 	return sqrtf((vector.x * vector.x) + (vector.y * vector.y));
 }
 
 bool
 vec2_normalize
-(vec2 *vector)
+(yuki_vec2 *vector)
 {
 	if (!vector)
 		return false;
@@ -132,9 +132,9 @@ vec2_normalize
 	return true;
 }
 
-const vec2
+const yuki_vec2
 vec2_get_normalized
-(vec2 vector)
+(yuki_vec2 vector)
 {
 	vec2_normalize(&vector);
 	return vector;
@@ -142,7 +142,7 @@ vec2_get_normalized
 
 const f32
 vec2_dot_product
-(const vec2 left, const vec2 right)
+(const yuki_vec2 left, const yuki_vec2 right)
 {
 	return (left.x * right.x) + (right.y * right.y);
 }
@@ -150,119 +150,119 @@ vec2_dot_product
 
 // 3d vector ///////////////////////////////////////////////////////////////
 
-const vec3
+const yuki_vec3
 vec3_new
 (const f32 x, const f32 y, const f32 z)
 {
-	return (vec3) { x, y, z };
+	return (yuki_vec3) { x, y, z };
 }
 
-const vec3
+const yuki_vec3
 vec3_copy
-(const vec3 vector)
+(const yuki_vec3 vector)
 {
-	return (vec3) { vector.x, vector.y, vector.z };
+	return (yuki_vec3) { vector.x, vector.y, vector.z };
 }
 
-const vec3
+const yuki_vec3
 vec3_zero
 (void)
 {
-	return (vec3) { 0.0f, 0.0f, 0.0f };
+	return (yuki_vec3) { 0.0f, 0.0f, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_one
 (void)
 {
-	return (vec3) { 1.0f, 1.0f, 1.0f };
+	return (yuki_vec3) { 1.0f, 1.0f, 1.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_up
 (void)
 {
-	return (vec3) { 0.0f, 1.0f, 0.0f };
+	return (yuki_vec3) { 0.0f, 1.0f, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_down
 (void)
 {
-	return (vec3) { 0.0f, -1.0f, 0.0f };
+	return (yuki_vec3) { 0.0f, -1.0f, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_left
 (void)
 {
-	return (vec3) { -1.0f, 0.0f, 0.0f };
+	return (yuki_vec3) { -1.0f, 0.0f, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_right
 (void)
 {
-	return (vec3) { 1.0f, 0.0f, 0.0f };
+	return (yuki_vec3) { 1.0f, 0.0f, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_forward
 (void)
 {
-	return (vec3) { 0.0f, 0.0f, 1.0f };
+	return (yuki_vec3) { 0.0f, 0.0f, 1.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_backward
 (void)
 {
-	return (vec3) { 0.0f, 0.0f, -1.0f };
+	return (yuki_vec3) { 0.0f, 0.0f, -1.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_add
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
-	return (vec3) { left.x + right.x, left.y + right.y, left.z + right.z };
+	return (yuki_vec3) { left.x + right.x, left.y + right.y, left.z + right.z };
 }
 
-const vec3
+const yuki_vec3
 vec3_sub
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
-	return (vec3) { left.x - right.x, left.y - right.y, left.z - right.z };
+	return (yuki_vec3) { left.x - right.x, left.y - right.y, left.z - right.z };
 }
 
-const vec3
+const yuki_vec3
 vec3_mul_scalar
-(const vec3 vector, const f32 scalar)
+(const yuki_vec3 vector, const f32 scalar)
 {
-	return (vec3) { vector.x * scalar, vector.y * scalar, vector.z * scalar };
+	return (yuki_vec3) { vector.x * scalar, vector.y * scalar, vector.z * scalar };
 }
 
-const vec3
+const yuki_vec3
 vec3_div_scalar
-(const vec3 vector, const f32 scalar)
+(const yuki_vec3 vector, const f32 scalar)
 {
-	return (vec3)
+	return (yuki_vec3)
 	{
 		scalar != 0 ? (vector.x / scalar) : 0.0f, scalar != 0 ? (vector.y / scalar) : 0.0f, scalar != 0 ? (vector.z / scalar) : 0.0f
 	};
 }
 
-const vec3
+const yuki_vec3
 vec3_mul_vec3
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
-	return (vec3) { left.x * right.x, left.y * right.y, left.z * right.z };
+	return (yuki_vec3) { left.x * right.x, left.y * right.y, left.z * right.z };
 }
 
-const vec3
+const yuki_vec3
 vec3_div_vec3
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
-	return (vec3)
+	return (yuki_vec3)
 	{
 		right.x != 0 ? (left.x / right.x) : 0.0f, right.y != 0 ? (left.y / right.y) : 0.0f, right.z != 0 ? (left.z / right.z) : 0.0f
 	};
@@ -270,14 +270,14 @@ vec3_div_vec3
 
 const f32
 vec3_get_magnitude
-(const vec3 vector)
+(const yuki_vec3 vector)
 {
 	return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z));
 }
 
 bool
 vec3_normalize
-(vec3 *vector)
+(yuki_vec3 *vector)
 {
 	if (!vector)
 		return false;
@@ -292,9 +292,9 @@ vec3_normalize
 	return true;
 }
 
-const vec3
+const yuki_vec3
 vec3_get_normalized
-(vec3 vector)
+(yuki_vec3 vector)
 {
 	vec3_normalize(&vector);
 	return vector;
@@ -302,16 +302,16 @@ vec3_get_normalized
 
 const f32
 vec3_dot_product
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
 	return (left.x * right.x) + (left.y * right.y) + (left.z * right.z);
 }
 
-const vec3
+const yuki_vec3
 vec3_cross_product
-(const vec3 left, const vec3 right)
+(const yuki_vec3 left, const yuki_vec3 right)
 {
-	return (vec3)
+	return (yuki_vec3)
 	{
 		left.y * right.z - left.z * right.y, left.z * right.x - left.x * right.z, left.x * right.y - left.y * right.x
 	};
@@ -321,104 +321,104 @@ vec3_cross_product
 
 // 4d vector ///////////////////////////////////////////////////////////////
 
-const vec4
+const yuki_vec4
 vec4_new
 (const f32 x, const f32 y, const f32 z, const f32 w)
 {
-	return (vec4) { x, y, z, w };
+	return (yuki_vec4) { x, y, z, w };
 }
 
-const vec4
+const yuki_vec4
 vec4_copy
-(const vec4 vector)
+(const yuki_vec4 vector)
 {
-	return (vec4) { vector.x, vector.y, vector.z, vector.w };
+	return (yuki_vec4) { vector.x, vector.y, vector.z, vector.w };
 }
 
 
-const vec4
+const yuki_vec4
 vec4_zero
 (void)
 {
-	return (vec4) { 0.0f, 0.0f, 0.0f, 0.0f };
+	return (yuki_vec4) { 0.0f, 0.0f, 0.0f, 0.0f };
 }
 
-const vec4
+const yuki_vec4
 vec4_one
 (void)
 {
-	return (vec4) { 1.0f, 1.0f, 1.0f, 1.0f };
+	return (yuki_vec4) { 1.0f, 1.0f, 1.0f, 1.0f };
 }
 
-const vec4
+const yuki_vec4
 vec4_add
-(const vec4 left, const vec4 right)
+(const yuki_vec4 left, const yuki_vec4 right)
 {
 	__m128	_left = _mm_loadr_ps(left.elements),
 		_right = _mm_loadr_ps(right.elements);
 
-	vec4 result;
+	yuki_vec4 result;
 	_mm_storer_ps(result.elements, _mm_add_ps(_left, _right));
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_sub
-(const vec4 left, const vec4 right)
+(const yuki_vec4 left, const yuki_vec4 right)
 {
 	__m128	_left = _mm_loadr_ps(left.elements),
 		_right = _mm_loadr_ps(right.elements);
 
-	vec4 result;
+	yuki_vec4 result;
 	_mm_storer_ps(result.elements, _mm_sub_ps(_left, _right));
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_mul_scalar
-(const vec4 vector, const f32 scalar)
+(const yuki_vec4 vector, const f32 scalar)
 {
 	__m128	_left = _mm_loadr_ps(vector.elements),
 		_right = _mm_set1_ps(scalar);
 
-	vec4 result;
+	yuki_vec4 result;
 	_mm_storer_ps(result.elements, _mm_mul_ps(_left, _right));
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_div_scalar
-(const vec4 vector, const f32 scalar)
+(const yuki_vec4 vector, const f32 scalar)
 {
 	__m128	_left = _mm_loadr_ps(vector.elements),
 		_right = _mm_set1_ps(scalar);
 
-	vec4 result;
+	yuki_vec4 result;
 	_mm_storer_ps(result.elements, _mm_div_ps(_left, _right));
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_mul_vec4
-(const vec4 left, const vec4 right)
+(const yuki_vec4 left, const yuki_vec4 right)
 {
 	__m128	_left = _mm_loadr_ps(left.elements),
 		_right = _mm_loadr_ps(right.elements);
 
-	vec4 result;
+	yuki_vec4 result;
 	_mm_storer_ps(result.elements, _mm_mul_ps(_left, _right));
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_div_vec4
-(const vec4 left, const vec4 right)
+(const yuki_vec4 left, const yuki_vec4 right)
 {
 	__m128	_left = _mm_loadr_ps(left.elements),
 		_right = _mm_loadr_ps(right.elements),
 		_zero = _mm_set1_ps(0);
 
-	vec4 result;
+	yuki_vec4 result;
 
 	if (right.x == 0 || right.y == 0 || right.z == 0 || right.w == 0)
 		_mm_store_ps(result.elements, _zero);
@@ -428,11 +428,11 @@ vec4_div_vec4
 	return result;
 }
 
-const vec4
+const yuki_vec4
 vec4_mul_mat4
-(vec4 vector, const mat4 matrix)
+(yuki_vec4 vector, const yuki_mat4 matrix)
 {
-	mat4 mat = mat4_get_transposed(matrix);
+	yuki_mat4 mat = mat4_get_transposed(matrix);
 
 	__m128 _res =
 		_mm_add_ps(
@@ -452,14 +452,14 @@ vec4_mul_mat4
 
 const f32
 vec4_get_magnitude
-(const vec4 vector)
+(const yuki_vec4 vector)
 {
 	return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z) + (vector.w * vector.w));
 }
 
 bool
 vec4_normalize
-(vec4 *vector)
+(yuki_vec4 *vector)
 {
 	if (!vector)
 		return false;
@@ -472,9 +472,9 @@ vec4_normalize
 	return true;
 }
 
-const vec4
+const yuki_vec4
 vec4_get_normalized
-(vec4 vector)
+(yuki_vec4 vector)
 {
 	vec4_normalize(&vector);
 	return vector;
@@ -483,46 +483,46 @@ vec4_get_normalized
 
 // vector conversion ///////////////////////////////////////////////////////
 
-const vec2
+const yuki_vec2
 vec2_from_vec3
-(const vec3 vector)
+(const yuki_vec3 vector)
 {
-	return (vec2) { vector.x, vector.y };
+	return (yuki_vec2) { vector.x, vector.y };
 }
 
-const vec2
+const yuki_vec2
 vec2_from_vec4
-(const vec4 vector)
+(const yuki_vec4 vector)
 {
-	return (vec2) { vector.x, vector.y };
+	return (yuki_vec2) { vector.x, vector.y };
 }
 
-const vec3
+const yuki_vec3
 vec3_from_vec2
-(const vec2 vector)
+(const yuki_vec2 vector)
 {
-	return (vec3) { vector.x, vector.y, 0.0f };
+	return (yuki_vec3) { vector.x, vector.y, 0.0f };
 }
 
-const vec3
+const yuki_vec3
 vec3_from_vec4
-(const vec4 vector)
+(const yuki_vec4 vector)
 {
-	return (vec3) { vector.x, vector.y, vector.z };
+	return (yuki_vec3) { vector.x, vector.y, vector.z };
 }
 
-const vec4
+const yuki_vec4
 vec4_from_vec2
-(const vec2 vector, const f32 w)
+(const yuki_vec2 vector, const f32 w)
 {
-	return (vec4) { vector.x, vector.y, 0.0f, w };
+	return (yuki_vec4) { vector.x, vector.y, 0.0f, w };
 }
 
-const vec4
+const yuki_vec4
 vec4_from_vec3
-(const vec3 vector, const f32 w)
+(const yuki_vec3 vector, const f32 w)
 {
-	return (vec4) { vector.x, vector.y, vector.z, w };
+	return (yuki_vec4) { vector.x, vector.y, vector.z, w };
 }
 
 
